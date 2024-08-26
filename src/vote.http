@@ -1,0 +1,22 @@
+### Adicionar um candidato
+POST http://localhost:3000/votacao/add-candidate
+Content-Type: application/json
+
+{
+  "name": "Candidato 3"
+}
+
+### Votar em um candidato
+POST http://localhost:3000/votacao/vote
+Content-Type: application/json
+
+{
+  "candidateId": "2",
+  "voterId": "asdasdasd123123123"
+}
+
+### Obter detalhes de um candidato
+GET http://localhost:3000/votacao/candidate/1
+
+### Obter todos os candidatos
+GET http://localhost:3000/votacao/candidates

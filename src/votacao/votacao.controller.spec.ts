@@ -1,17 +1,18 @@
-import { Controller, Post, Body, Get } from '@nestjs/common';
-import { VotacaoService } from './votacao.service';
+import { Test, TestingModule } from '@nestjs/testing';
+import { VotacaoController } from './votacao.controller';
 
-@Controller('votacao')
-export class VotacaoController {
-  constructor(private readonly votacaoService: VotacaoService) {}
+describe('VotacaoController', () => {
+  let controller: VotacaoController;
 
-  @Post('votar')
-  async castVote(@Body('candidateId') candidateId: string, @Body('voterId') voterId: string) {
-    return this.votacaoService.castVote(candidateId, voterId);
-  }
+  beforeEach(async () => {
+    const module: TestingModule = await Test.createTestingModule({
+      controllers: [VotacaoController],
+    }).compile();
 
-  @Get('votos')
-  async getAllVotes() {
-    return this.votacaoService.getAllVotes();
-  }
-}
+    controller = module.get<VotacaoController>(VotacaoController);
+  });
+
+  it('should be defined', () => {
+    expect(controller).toBeDefined();
+  });
+});

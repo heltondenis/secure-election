@@ -1,34 +1,18 @@
-import { Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
-import { ThirdwebSDK } from '@thirdweb-dev/sdk';
-import { ethers } from 'ethers';
-import { Vote } from './schemas/vote.schema';
+import { Test, TestingModule } from '@nestjs/testing';
+import { VotacaoService } from './votacao.service';
 
-@Injectable()
-export class VotacaoService {
-  private sdk: ThirdwebSDK;
+describe('VotacaoService', () => {
+  let service: VotacaoService;
 
-  constructor(@InjectModel(Vote.name) private voteModel: Model<Vote>) {
-    const provider = ethers.getDefaultProvider('https://rinkeby.infura.io/v3/YOUR_INFURA_PROJECT_ID');
-    this.sdk = new ThirdwebSDK(provider);
-  }
+  beforeEach(async () => {
+    const module: TestingModule = await Test.createTestingModule({
+      providers: [VotacaoService],
+    }).compile();
 
-  async castVote(candidateId: string, voterId: string): Promise<Vote> {
-    const contract = await this.sdk.getContract('YOUR_CONTRACT_ADDRESS');
-    const transaction = await contract.call('castVote', candidateId, voterId);
+    service = module.get<VotacaoService>(VotacaoService);
+  });
 
-    const vote = new this.voteModel({
-      candidateId,
-      voterId,
-      timestamp: new Date(),
-      transactionHash: transaction.receipt.transactionHash,
-    });
-
-    return vote.save();
-  }
-
-  async getAllVotes(): Promise<Vote[]> {
-    return this.voteModel.find().exec();
-  }
-}
+  it('should be defined', () => {
+    expect(service).toBeDefined();
+  });
+});
