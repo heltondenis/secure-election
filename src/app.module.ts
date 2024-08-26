@@ -1,10 +1,12 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { MongooseModule } from '@nestjs/mongoose';
+import { VotacaoModule } from './votacao/votacao.module';
+import { VotacaoModule } from './votacao/votacao.module';
 
 @Module({
-  imports: [],
-  controllers: [AppController],
-  providers: [AppService],
+  imports: [
+    MongooseModule.forRoot('mongodb://localhost/voting-system'), // Substitua com sua URL MongoDB
+    VotacaoModule,
+  ],
 })
 export class AppModule {}
